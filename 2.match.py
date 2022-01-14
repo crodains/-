@@ -20,25 +20,25 @@ def get_data(info):
 #------------------------------------------------------------
 
 
-# for문으로 앞서 작성한 id를 넣고 돌릴 예정
-# lol_userid 가져오기(csv파일로)
+# 스크래핑한 랭킹 csv에서 id만 추출
 
 df = pd.read_csv("./lol_userid.csv")
 # 이름만 따로 추출하고 리스트로 저장
+
 name = df['name']
 name = list(name)
-name2 = name[700:800]
+
+#최종적으로 결과값 넣어줄 DataFrame 미리 생성
 columns = ['id','champion','result','kills','deaths','assists','time','timestamp','win_top','win_jungle','win_mid','win_onedeal','win_support','lose_top','lose_jungle','lose_mid','lose_onedeal','lose_support']
 result = pd.DataFrame(columns= columns)
-# (index=range(0,0), columns= ['id','champion','result','kills','deaths','assists','time','timestamp','win_top','win_jungle','win_mid','win_onedeal','win_support','lose_top','lose_jungle','lose_mid','lose_onedeal','lose_support'])
-# 데이터 저장(userid, index, champion, result, kill, death, assist, time)
+
 
 
 # url 확인 결과 띄어쓰기 할 때 +가 붙고 영문이나 한글이나 동일하게 표기됨.
 # 예를 들어 http://www.op.gg/summoner/userName=Hide+on+bush 와 같이 표기됨
 # for문을 사용하고 띄어쓰기는 split으로 나눠서 + 사이 사이에 각각 넣는 코드를 작성
 
-for id in name2:
+for id in name:
     try:
         
         url = 'https://www.op.gg/summoner/userName='+id
@@ -63,7 +63,7 @@ for id in name2:
 
 
             
-        # 미리 가져올 리스트 지정
+        # 미리 가져올 리스트 생성
         recent_id = []
         recent_champions=[]
         recent_kills=[]
@@ -193,7 +193,7 @@ for id in name2:
     except:
         print("에러발생")
 print(result)
-
+print(lose_champion1)
 #데이터 프레임으로 만들어주기
 
 result.to_csv('롤2.csv',sep=',',encoding='utf-8')
